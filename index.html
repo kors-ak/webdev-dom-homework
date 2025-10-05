@@ -64,8 +64,38 @@
   </body>
 
   <script>
-    "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const allCommentsEl = document.querySelector('.comments')
+    const buttonEl = document.querySelector('.add-form-button');
+
+    buttonEl.addEventListener('click', () => {
+      const newComment = document.createElement('li');
+      const currentDate = new Date()
+      const userName = document.querySelector('.add-form-name').value;
+      const userText = document.querySelector('.add-form-text').value;
+      newComment.classList = 'comment';
+      newComment.innerHTML = `<div class="comment-header">
+                                <div>${userName}</div>
+                                <div>${currentDate.toLocaleDateString('ru-Ru')} ${currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                              </div>
+                              <div class="comment-body">
+                                <div class="comment-text">
+                                  ${userText}
+                                </div>
+                              </div>
+                              <div class="comment-footer">
+                                <div class="likes">
+                                  <span class="likes-counter">0</span>
+                                  <button class="like-button"></button>
+                                </div>
+                              </div>`
+
+      if (!userName || !userText) {
+        alert('Все поля должны быть заполнены');
+      } else {
+        allCommentsEl.appendChild(newComment);
+        document.querySelector('.add-form-name').value = '';
+        document.querySelector('.add-form-text').value = '';
+      }
+    })
   </script>
 </html>
