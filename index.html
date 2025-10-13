@@ -64,8 +64,57 @@
   </body>
 
   <script>
-    "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const allCommentsEl = document.querySelector('.comments')
+    const buttonEl = document.querySelector('.add-form-button');
+    const userName = document.querySelector('.add-form-name');
+    const userText = document.querySelector('.add-form-text');
+
+    buttonEl.addEventListener('click', () => {
+      const newComment = document.createElement('li');
+      const currentDate = new Date()
+      newComment.classList = 'comment';
+      newComment.innerHTML = `<div class="comment-header">
+                                <div>${userName.value}</div>
+                                <div>${currentDate.toLocaleDateString('ru-Ru')} ${currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                              </div>
+                              <div class="comment-body">
+                                <div class="comment-text">
+                                  ${userText.value}
+                                </div>
+                              </div>
+                              <div class="comment-footer">
+                                <div class="likes">
+                                  <span class="likes-counter">0</span>
+                                  <button class="like-button"></button>
+                                </div>
+                              </div>`
+
+      if (!userName.value || !userText.value) {
+
+        if (!userName.value) { 
+          userName.classList.add('error');
+        }
+        if (!userText.value) { 
+          userText.classList.add('error'); 
+        }
+
+        setTimeout(() => {
+        alert('Пожалуйста, убедись, что все поля заполнены');
+        }, 1);
+
+      } else {
+        allCommentsEl.appendChild(newComment);
+        userName.value = '';
+        userText.value = '';
+      }
+    })
+
+    userName.addEventListener('keydown', () => {
+      userName.classList.remove('error');
+    })
+    userText.addEventListener('keydown', () => {
+      userText.classList.remove('error');
+    })
+
   </script>
 </html>
