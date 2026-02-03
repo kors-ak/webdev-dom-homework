@@ -89,18 +89,14 @@
                                 </div>
                               </div>`
 
-      if (!userName.value || !userText.value) {
+      if (userName.value.trim().length == 0 || userText.value.trim().length == 0) {
 
-        if (!userName.value) { 
+        if (userName.value.trim().length == 0) { 
           userName.classList.add('error');
         }
-        if (!userText.value) { 
+        if (userText.value.trim().length == 0) { 
           userText.classList.add('error'); 
-        }
-
-        setTimeout(() => {
-        alert('Пожалуйста, убедись, что все поля заполнены');
-        }, 1);
+        }          
 
       } else {
         allCommentsEl.appendChild(newComment);
