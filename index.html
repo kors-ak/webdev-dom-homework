@@ -8,42 +8,7 @@
 
   <body>
     <div class="container">
-      <ul class="comments">
-        <li class="comment">
-          <div class="comment-header">
-            <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Это будет первый комментарий на этой странице
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">3</span>
-              <button class="like-button"></button>
-            </div>
-          </div>
-        </li>
-        <li class="comment">
-          <div class="comment-header">
-            <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Мне нравится как оформлена эта страница! ❤
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <ul class="comments"></ul>
       <div class="add-form">
         <input
           type="text"
@@ -64,10 +29,52 @@
   </body>
 
   <script>
-    const allCommentsEl = document.querySelector('.comments')
+    const commentFeed = document.querySelector('.comments')
     const buttonEl = document.querySelector('.add-form-button');
     const userName = document.querySelector('.add-form-name');
     const userText = document.querySelector('.add-form-text');
+
+    const commentsArr = [
+      {
+        name: 'Глеб Фокин',
+        date: '12.02.22 12:18',
+        text: 'Это будет первый комментарий на этой странице',
+        isLiked: false,
+        likes: 3,
+      },
+      {
+        name: 'Варвара Н.',
+        date: '13.02.22 19:22',
+        text: 'Мне нравится как оформлена эта страница! ❤',
+        isLiked: true,
+        likes: 75,
+      },
+    ];
+
+    function renderComments() {
+      const allCommentsHtml = commentsArr.map(el => `<li class="comment">
+                                            <div class="comment-header">
+                                              <div>${el.name}</div>
+                                              <div>${el.date}</div>
+                                            </div>
+                                            <div class="comment-body">
+                                              <div class="comment-text">
+                                                ${el.text}
+                                              </div>
+                                            </div>
+                                            <div class="comment-footer">
+                                              <div class="likes">
+                                                <span class="likes-counter">${el.likes}</span>
+                                                <button class="like-button${el.isLiked ? ' active-like' : ''}"></button>
+                                              </div>
+                                            </div>
+                                          </li>`)
+                                          .join('');
+      
+      commentFeed.innerHTML = allCommentsHtml;
+    }
+
+    renderComments()
 
     buttonEl.addEventListener('click', () => {
       const newComment = document.createElement('li');
@@ -87,21 +94,24 @@
                                   <span class="likes-counter">0</span>
                                   <button class="like-button"></button>
                                 </div>
-                              </div>`
+                              </div>`;
 
       if (userName.value.trim().length == 0 || userText.value.trim().length == 0) {
 
         if (userName.value.trim().length == 0) { 
           userName.classList.add('error');
+          userName.value = ''
         }
         if (userText.value.trim().length == 0) { 
-          userText.classList.add('error'); 
+          userText.classList.add('error');
+          userText.value = '' 
         }          
 
       } else {
-        allCommentsEl.appendChild(newComment);
+        commentContainer.appendChild(newComment);
         userName.value = '';
         userText.value = '';
+        renderComments();
       }
     })
 
