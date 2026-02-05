@@ -31,8 +31,8 @@
   <script>
     const commentFeed = document.querySelector('.comments')
     const buttonEl = document.querySelector('.add-form-button');
-    const userName = document.querySelector('.add-form-name');
-    const userText = document.querySelector('.add-form-text');
+    const nameField = document.querySelector('.add-form-name');
+    const textField = document.querySelector('.add-form-text');
 
     const commentsArr = [
       {
@@ -77,49 +77,39 @@
     renderComments()
 
     buttonEl.addEventListener('click', () => {
-      const newComment = document.createElement('li');
-      const currentDate = new Date()
-      newComment.classList = 'comment';
-      newComment.innerHTML = `<div class="comment-header">
-                                <div>${userName.value}</div>
-                                <div>${currentDate.toLocaleDateString('ru-Ru')} ${currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                              </div>
-                              <div class="comment-body">
-                                <div class="comment-text">
-                                  ${userText.value}
-                                </div>
-                              </div>
-                              <div class="comment-footer">
-                                <div class="likes">
-                                  <span class="likes-counter">0</span>
-                                  <button class="like-button"></button>
-                                </div>
-                              </div>`;
+      const currentDate = new Date();
 
-      if (userName.value.trim().length == 0 || userText.value.trim().length == 0) {
+      if (nameField.value.trim().length == 0 || textField.value.trim().length == 0) {
 
-        if (userName.value.trim().length == 0) { 
-          userName.classList.add('error');
-          userName.value = ''
+        if (nameField.value.trim().length == 0) { 
+          nameField.classList.add('error');
+          nameField.value = '';
         }
-        if (userText.value.trim().length == 0) { 
-          userText.classList.add('error');
-          userText.value = '' 
+        if (textField.value.trim().length == 0) { 
+          textField.classList.add('error');
+          textField.value = '';
         }          
 
       } else {
-        commentContainer.appendChild(newComment);
-        userName.value = '';
-        userText.value = '';
+        const newComment = {
+          name: nameField.value,
+          date: currentDate.toLocaleDateString('ru-Ru') + ' ' + currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text: textField.value,
+          isLiked: false,
+          likes: 0,
+        };
+        commentsArr.push(newComment);
+        nameField.value = '';
+        textField.value = '';
         renderComments();
       }
     })
 
-    userName.addEventListener('keydown', () => {
-      userName.classList.remove('error');
+    nameField.addEventListener('keydown', () => {
+      nameField.classList.remove('error');
     })
-    userText.addEventListener('keydown', () => {
-      userText.classList.remove('error');
+    textField.addEventListener('keydown', () => {
+      textField.classList.remove('error');
     })
 
   </script>
