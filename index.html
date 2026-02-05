@@ -51,6 +51,25 @@
       },
     ];
 
+    function initLikeAction() {
+      const likeButtons = document.querySelectorAll('.like-button');
+      for (const btn of likeButtons) {
+        const comment = commentsArr[btn.dataset.index];
+
+        btn.addEventListener('click', () => {
+          if (comment.isLiked) {
+            comment.isLiked = false;
+            comment.likes--;
+          } else {
+            comment.isLiked = true;
+            comment.likes++;
+          }
+
+          renderComments()
+        })
+      }
+    }
+
     function renderComments() {
       
       if (commentsArr.length === 0) {
@@ -72,13 +91,15 @@
         <div class="comment-footer">
           <div class="likes">
             <span class="likes-counter">${el.likes}</span>
-            <button data-id="${index}" class="like-button${el.isLiked ? ' -active-like' : ''}"></button>
+            <button data-index="${index}" class="like-button${el.isLiked ? ' -active-like' : ''}"></button>
           </div>
         </div>
       </li>`)
       .join('');
       
       commentFeed.innerHTML = allCommentsHtml;
+
+      initLikeAction()
     }
 
     renderComments()
