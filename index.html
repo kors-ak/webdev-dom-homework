@@ -106,23 +106,27 @@
 
     buttonEl.addEventListener('click', () => {
       const currentDate = new Date();
+      let name = String(nameField.value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+      let text = String(textField.value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
-      if (nameField.value.trim().length == 0 || textField.value.trim().length == 0) {
+      let hasError = false;
 
-        if (nameField.value.trim().length == 0) { 
-          nameField.classList.add('error');
-          nameField.value = '';
-        }
-        if (textField.value.trim().length == 0) { 
-          textField.classList.add('error');
-          textField.value = '';
-        }          
+      if (name.trim().length == 0) { 
+        hasError = true;
+        nameField.classList.add('error');
+        nameField.value = '';
+      }
+      if (text.trim().length == 0) { 
+        hasError = true;
+        textField.classList.add('error');
+        textField.value = '';
+      }          
 
-      } else {
+      if (!hasError) {
         const newComment = {
-          name: nameField.value,
+          name: name,
           date: currentDate.toLocaleDateString('ru-Ru') + ' ' + currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          text: textField.value,
+          text: text,
           isLiked: false,
           likes: 0,
         };
