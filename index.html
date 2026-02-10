@@ -56,7 +56,8 @@
       for (const btn of likeButtons) {
         const comment = commentsArr[btn.dataset.index];
 
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
           if (comment.isLiked) {
             comment.isLiked = false;
             comment.likes--;
@@ -67,6 +68,21 @@
 
           renderComments()
         })
+      }
+    }
+
+    function initAnsverAction() {
+      const comments = document.querySelectorAll('.comment');
+      let index = 0;
+
+      for (const commentBody of comments) {
+        const commentEl = commentsArr[index];
+
+        commentBody.addEventListener('click', () => {
+          textField.value = ` ⮩ “ ${commentEl.text.replace(/⮩\s*“\s*[^”]*\s*”/g, '').trim()} ” \n\n${commentEl.name},`
+        })
+
+        index++;
       }
     }
 
@@ -100,6 +116,7 @@
       commentFeed.innerHTML = allCommentsHtml;
 
       initLikeAction()
+      initAnsverAction()
     }
 
     renderComments()
@@ -107,7 +124,7 @@
     buttonEl.addEventListener('click', () => {
       const currentDate = new Date();
       let name = String(nameField.value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-      let text = String(textField.value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+      let text = String(textField.value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replace(/(\n){3,}/g, '\n\n').replace(/[\n\r]+$/, '');
 
       let hasError = false;
 
