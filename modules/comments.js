@@ -13,4 +13,4 @@ export const commentsArr = [
     isLiked: true,
     likes: 75,
   },
-];
+]

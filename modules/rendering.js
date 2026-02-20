@@ -1,15 +1,16 @@
-import { commentsArr } from "./comments.js";
-import { initLikeAction, initAnsverAction } from "./actions.js";
-const commentFeed = document.querySelector('.comments');
+import { commentsArr } from './comments.js'
+import { initLikeAction, initAnsverAction } from './actions.js'
+const commentFeed = document.querySelector('.comments')
 
 export function renderComments() {
-  
   if (commentsArr.length === 0) {
-    commentFeed.innerHTML = '<p>Комментариев пока нет</p>';
-    return;
+    commentFeed.innerHTML = '<p>Комментариев пока нет</p>'
+    return
   }
 
-  const allCommentsHtml = commentsArr.map((el, index) => `
+  const allCommentsHtml = commentsArr
+    .map(
+      (el, index) => `
   <li class="comment">
     <div class="comment-header">
       <div>${el.name}</div>
@@ -26,10 +27,11 @@ export function renderComments() {
         <button data-index="${index}" class="like-button${el.isLiked ? ' -active-like' : ''}"></button>
       </div>
     </div>
-  </li>`)
-  .join('');
-  
-  commentFeed.innerHTML = allCommentsHtml;
+  </li>`,
+    )
+    .join('')
+
+  commentFeed.innerHTML = allCommentsHtml
 
   initLikeAction()
   initAnsverAction()
